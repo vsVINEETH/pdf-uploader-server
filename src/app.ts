@@ -16,7 +16,7 @@ const server = createServer(app);
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['https://pdf-uploader-client.vercel.app'],
     methods: ["GET","POST","PUT","PATCH","DELETE"],
     credentials: true
 }));
