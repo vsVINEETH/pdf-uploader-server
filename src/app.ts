@@ -21,7 +21,7 @@ app.use(cors({
     methods: ["GET","POST","PUT","PATCH","DELETE", "OPTIONS"],
 }));
 
-app.options('*', cors());
+//app.options('*', cors());
 app.use(morgan('dev'));
 
 //Body parsing
