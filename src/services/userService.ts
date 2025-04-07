@@ -144,7 +144,7 @@ export class UserService implements IUserService {
             const arrayBuffer = await res.arrayBuffer();
             const pdfBytes = new Uint8Array(arrayBuffer);
         
-            return pdfBytes;
+            return {pdfBytes, signedUrl};
 
         } catch (error) {
            throw new Error('something happend in getSelectedFile') 
