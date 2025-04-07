@@ -22,7 +22,6 @@ app.use(cors({
 }));
 
 app.options('*', cors());
-
 app.use(morgan('dev'));
 
 //Body parsing
