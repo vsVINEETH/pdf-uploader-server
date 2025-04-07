@@ -51,15 +51,14 @@ export class UserController {
 
     extract = async (req: Request, res: Response, next: NextFunction) => {
         try{
+            console.log(req.body)
             const extractedPdfBuffer = await this.userService.extractPDF(req.body.fileUrl, req.body.pages);
-            if(extractedPdfBuffer){
+                console.log(req.body.fileUrl,'yeah it here');
+         
                 res.setHeader('Content-Type', 'application/pdf');
                 res.setHeader('Content-Disposition', 'attachment; filename="extracted.pdf"');
                 res.send(extractedPdfBuffer);
-                return;
-            };
-            res.status(HttpStatusCodes.BAD_REQUEST).json({message:ResponseMessages.BAD_REQUEST})
-            return;
+
         } catch(error){
          next(error);
         }
@@ -83,10 +82,13 @@ export class UserController {
     getSelectedFile = async (req: Request, res: Response, next: NextFunction) => {
         try {
            const fileName = req.query.fileName;
-           const pdfBuffer = await this.userService.getSelectedFile(fileName as string);
-           res.setHeader('Content-Type', 'application/pdf');
-           res.setHeader('Content-Disposition', 'attachment; filename="extracted.pdf"');
-           res.send(pdfBuffer);
+           const pdfData = await this.userService.getSelectedFile(fileName as string);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename="extracted.pdf"');
+            res.json({
+              pdfBuffer: Buffer.from(pdfData.pdfBytes).toString('base64'), // encode Buffer to base64
+              signedUrl: pdfData.signedUrl
+            });
            return;
         } catch (error) {
             next(error)
